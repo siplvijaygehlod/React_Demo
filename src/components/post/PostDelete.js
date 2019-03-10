@@ -35,7 +35,12 @@ class PostDelete extends React.Component {
 
   render () {
     return (
-      <div>a</div>
+      <Modal
+      title='Delete Post'
+      content={this.renderContent()}
+      actions={this.renderAction()}
+      onDismiss={() => history.push('/')}
+    />
     )
   }
 }
