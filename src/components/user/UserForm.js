@@ -22,11 +22,29 @@ class UserForm extends React.Component {
     }
   }
 
+  showPassword = () => {
+    let x = document.getElementById("psw");
+    let y = document.getElementById("cpsw");
+
+
+    if(x && y){
+      if (x.type === "password" && y.type === "password") {
+        x.type = "text";
+        y.type = "text";
+
+      } else {
+        x.type = "password";
+        y.type = "password";
+      }
+    }
+  }
+
   /* This is helper functoin for Field's component props
   which holds formProps param by-default and this is object.
   Currently we are destructing our input object from formProps.
   */
  renderRegisterForm = ({input,idLable,inputType, label,meta}) => {
+  
    const className= `field ${meta.error && meta.touched ? 'error' : '' }`;
     return (
       <div className={className}>
@@ -35,6 +53,19 @@ class UserForm extends React.Component {
         </label>
         <input {...input} id={idLable} type={inputType} autoComplete="off"/>
         {this.renderRegisterError(meta)}
+      </div>
+    )
+  }
+
+  renderCheckbox = ({input,label,inputType, }) => {
+    return (
+      <div className='field'>
+      <label>
+          {label}
+        </label>
+        <input {...input} type={inputType} autoComplete="off" onClick={this.showPassword}
+        />
+        
       </div>
     )
   }
@@ -102,6 +133,12 @@ class UserForm extends React.Component {
           pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}"
           title="Must contain at least one number and one uppercase and
             lowercase letter, and at least 8 or more characters"
+        />
+        <Field 
+          inputType='checkbox' 
+          name='checkbox' 
+          component={this.renderCheckbox} 
+          label='Show Password'
         />
         <button className="ui button primary" >Submit</button>
       </form>

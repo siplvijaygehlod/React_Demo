@@ -1,11 +1,16 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import {connect} from 'react-redux'
+import {logOutUserAction} from './actions'
 
 class AuthCheck extends React.Component {
-    state = {demoVal:true}
-
+  
+    onSubmit = () => {
+      this.props.logOutUserAction();
+      
+    }
   renderAuthButton () {
-    if (this.state.demoVal) {
+    if (!localStorage.getItem("authToken")) {
       return (
           <div className="a">
             <Link className='ui button primary' to={`/user/login`}> Login</Link>
@@ -15,8 +20,9 @@ class AuthCheck extends React.Component {
     } else {
       return (
         <div className="a">
-            <Link className='ui button primary' to={`/user/profileUpdate`}> Update Profile</Link>
-            <Link className='ui button red' to={`/user/logout`}> Logout</Link>
+            <Link className='ui button primary'
+                  to={`/user/profileUpdate/${localStorage.getItem("loggedInUserId")}`}> Update Profile</Link>
+            <Link className='ui button red' to={`/user/login`} onClick={this.onSubmit}> Logout</Link>
         </div>
       )
     }
@@ -29,4 +35,4 @@ class AuthCheck extends React.Component {
   }
 }
 
-export default AuthCheck
+export default connect(null,{logOutUserAction})(AuthCheck)

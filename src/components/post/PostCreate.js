@@ -7,7 +7,7 @@ Field is a built-in react component to which
 we are going to show on screen. */
 
 import { Field, reduxForm } from 'redux-form'
-import {postCreate} from '../../actions'
+import {postCreateAction} from '../../actions'
 import { connect } from 'react-redux';
 //import {validation} from '../../validation'
 
@@ -28,24 +28,7 @@ class PostCreate extends React.Component {
   Currently we are destructing our input object from formProps.
   */
 
-  renderOptions = ({input,idLable}) => {
-    const selectOption= ['public','private','future','draft','pending'];
-    console.log(selectOption)
-    return (
-      <div>
-        <select id={idLable} {...input}  >
-          <option>Select Post Status</option>
-          {/* <option value={[0]}>Publish</option>
-          <option>Future</option>
-          <option>Draft</option>
-          <option>Pending</option>
-          <option>Private</option> */}
-        </select>
-      </div>
-    )
-
-  }
- renderLoginForm = ({input,idLable,inputType, label,meta}) => {
+ renderInputField = ({input,idLable,inputType, label,meta}) => {
   const className= `field ${meta.error && meta.touched ? 'error' : '' }`;
   //console.log(selectOption)
   if(inputType=== 'text'){
@@ -58,34 +41,49 @@ class PostCreate extends React.Component {
         {this.renderLoginError(meta)}
       </div>
     )
-  }else {
+  }
+  if(inputType === "select"){
+    /* onScroll={this.onScrollThatCallsPreventDefault}
+  onScrollPassive={this.onScrollThatJustListens} */
     return (
       <div className={className}>
         <label>
           {label}
         </label>
-        {({input,idLable})=>this.renderOptions}
-        
+        <select id={idLable} {...input}>
+          <option>Select Post Status</option>
+          <option value="publish">Publish</option>
+          <option value="future">Future</option>
+          <option value="draft">Draft</option>
+          <option value="pending">Pending</option>
+          <option value="draft">Private</option> 
+        </select>
         {this.renderLoginError(meta)}
       </div>
     )
   }
+  /* if(inputType=== 'textarea'){
+    return (
+      <div className={className}>
+        <label>
+          {label}
+        </label>
+        <textarea rows="4" ></textarea>
+        
+      </div>
+    )
+  } */
+  
 }
 
 
 onSubmit = formValues => {
-  //this.props.loginUser(formValues);
-  console.log(formValues)
+  this.props.postCreateAction(formValues);
+  //console.log(formValues)
 }
-
-
-  render () {
-    return (
-      <div>
-        <h3>Create a new post here</h3>
-
-         {/* this.props.handleSubmit() auto call the preventDefault */}
-       
+renderForm = () => {
+  return (
+    <div>
       <form onSubmit={this.props.handleSubmit(this.onSubmit)} className='ui form error'>
         {/* name props in field is for manage the form field
             and it is required props for field and all the props are send
@@ -94,26 +92,36 @@ onSubmit = formValues => {
         <Field 
           inputType='text'
           name='title'
-          component={this.renderLoginForm}
+          component={this.renderInputField}
           idLable='title'
           label='Enter Title'
         />
         <Field 
           inputType='text' 
-          name='description' 
-          component={this.renderLoginForm} 
+          name='content' 
+          component={this.renderInputField} 
           idLable='desc' 
           label='Enter Description'          
         />
-        <Field 
+        { <Field 
           inputType='select' 
           name='status' 
-          component={this.renderLoginForm} 
+          component={this.renderInputField} 
           idLable='status' 
           label='Select Post Status'          
-        />
+        /> }
         <button className="ui button primary" >Submit</button>
       </form>
+    </div>
+  )
+}
+
+
+  render () {
+    return (
+      <div>
+        <h3>Create a new post here</h3>
+       {this.renderForm()}
       </div>      
     )
   }
@@ -127,18 +135,21 @@ const validate = formValues => {
     errors.title = "no title!!!";
     
   }
-  /* let limitLength = formValues.username.length;
-  if(limitLength){
-    errors.username = "less than defiened limit";
-  }
- */
-  if(!formValues.description){
-    errors.description = "no description!!!";
+  
+  if(!formValues.content){
+    errors.content = "no description!!!";
+  }else if(formValues.content.length>600){
+    errors.content = 'Max length is 600 character'
+  }else if(formValues.content.length<500){
+    errors.content = 'Min length is 500 character'
   }
 
   if(!formValues.status){
     errors.status = "Select status!!!";
   }
+  /* if(formValues.status !== "publish"){
+    errors.status = "As a author you are only allow to use status publish";
+  } */
 
   return errors;
 };
@@ -151,5 +162,5 @@ immediately pass that function to class StreamCreate */
     validate
   })(PostCreate);
 
-  export default connect(null,{postCreate})(postRedux);
+  export default connect(null,{postCreateAction})(postRedux);
 

@@ -3,10 +3,9 @@ import { Link } from 'react-router-dom'
 import AuthCheck from '../AuthCheck'
 
 class Header extends Component {
-    state = {demoVal:true}
-
+    
     userMenu(){
-        if(this.state.demoVal){
+        if(localStorage.getItem("authToken")){
             return (
                 <div className='ui secondary pointing menu'>
                     <Link to='/' className='item'> React Demo App</Link>
