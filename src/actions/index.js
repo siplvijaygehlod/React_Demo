@@ -1,28 +1,27 @@
 import  wp from '../apis/wp'
+import  wpBearer from '../apis/wpBearer'
+
  import {
   FETCH_POSTS,
-  FETCH_POST,
-  FETCH_USER
+  FETCH_USER,
+  DELETE_POST,
+  UPDATE_POST
 } from './types';
 
 /* Test SignIn
-username: vijay
-password: vijay
+username: Vijay2207@
+password: Vijay2207@
 */
+
 import history from "../history"
 import {toastr} from 'react-redux-toastr'
-
- 
 
 const toastrSuccessFunction = (title,msg) => toastr.success(title,msg)
 const toastrWarningFunction = (title,msg) => toastr.error(title,msg) 
 
-export const loginUserAction = formValues => async (dispatch) => {
+export const loginUserAction = formValues => async () => {
     try{
-      let header = {
-        "Content-Type" : "application/json"
-      }
-      const response  = await wp.post('/jwt-auth/v1/token',{...formValues},{header:header});
+      const response  = await wp.post('/jwt-auth/v1/token',{...formValues});
       localStorage.setItem("authToken", response.data.token);
       localStorage.setItem("loggedInUserId", response.data.user_id);
       history.push('/');
@@ -34,6 +33,7 @@ export const loginUserAction = formValues => async (dispatch) => {
   };
 
   export const registerUserAction = formValues => async (dispatch) => {
+    console.log(formValues)
     try{
       const response  = await wp.post('wp/v2/users/register',{...formValues});
       toastrSuccessFunction(`${response.data.message}`,`${formValues.username}`)
@@ -53,55 +53,36 @@ export const loginUserAction = formValues => async (dispatch) => {
 
   export const getLoggedInUserDetailAction = id => async (dispatch) => {
     try{
-      let header = {
-        "Content-Type" : "application/json",
-        "Authorization":`Bearer ${localStorage.getItem("authToken")}`
-      }
-      const response  = await wp.put(`wp/v2/users/${id}`,{header:header});
+      const response  = await wpBearer.put(`wp/v2/users/${id}`);
       console.log(response.data);
       dispatch({type: FETCH_USER,payload:response.data})
     }catch(error){
       toastrWarningFunction(`User Details`,`User Data Not Found`);
     }  
-    //dispatch({type: SIGN_IN,payload:response.data})
   };
 
   export const updateUserAction = formValues => async (dispatch) => {
     try{
-      let header = {
-        "Content-Type" : "application/json",
-        "Authorization":`Bearer ${localStorage.getItem("authToken")}`
-      }
-      const response  = await wp.put(`wp/v2/users/${formValues.id}`,{...formValues},{header:header});
+      const response  = await wp.put(`wp/v2/users/${formValues.id}`,{...formValues});
       console.log(response.data.message);
     }catch(error){
       toastrWarningFunction(`Update User Faield`,`${formValues.username}`);
     }  
-    //dispatch({type: SIGN_IN,payload:response.data})
   };
 
-  export const postCreateAction = formValues => async (dispatch) => {
+  export const postCreateAction = formValues => async () => {
     try{
-      let header = {
-        "Content-Type" : "application/json",
-        "Authorization":`Bearer ${localStorage.getItem("authToken")}`
-      }
-      console.log(header)
-      console.log(typeof formValues.status)
-      const response  = await wp.post('/wp/v2/posts',formValues,{header:header});
-      console.log(response)
+      await wpBearer.post('/wp/v2/posts',formValues);
+      toastrSuccessFunction(`Post Create Successfully `,`${formValues.title}`);
+      history.push('/'); 
     }catch(error){
       toastrWarningFunction(`Create Post Error`,`${formValues.title}`);
     }  
   };
   
-  export const postList = ()=> async (dispatch) => {
+  export const postListAction = ()=> async (dispatch) => {
     try{
-      let header = {
-        "Content-Type" : "application/json",
-        "Authorization":`Bearer ${localStorage.getItem("authToken")}`
-      }
-      const response  = await wp.get('/wp/v2/posts',{header:header});
+      const response  = await wp.get('/wp/v2/posts');
       //console.log(response.data)
       dispatch({type: FETCH_POSTS,payload:response.data})
     }catch(error){
@@ -109,16 +90,13 @@ export const loginUserAction = formValues => async (dispatch) => {
     }  
   };
   
-  export const postView = (id)=> async (dispatch) => {
+   export const postUpdateAction = (id,formValues)=> async (dispatch) => {
     try{
-      let header = {
-        "Content-Type" : "application/json",
-        "Authorization":`Bearer ${localStorage.getItem("authToken")}`
-      }
-      //console.log(header)
-      const response  = await wp.get(`/wp/v2/posts/${id}`,{header:header});
+      const response  = await wpBearer.post(`/wp/v2/posts/${id}`,formValues);
       //console.log(response.data)
-      dispatch({type: FETCH_POST,payload:response.data})
+      toastrSuccessFunction(`Post Update Successfully `,`${formValues.title}`);
+      dispatch({type: UPDATE_POST,payload:response.data})
+      history.push('/')
     }catch(error){
       toastrWarningFunction(`Form Submission Error`,`a`);
     }  
@@ -126,27 +104,11 @@ export const loginUserAction = formValues => async (dispatch) => {
 
   export const deletePostAction = (id)=> async (dispatch) => {
     try{
-      let localStorageData = localStorage.getItem("authToken");
-      let header = {
-        "Content-Type" : "application/json",
-        Authorization:`Bearer ${localStorageData}`
-      }
-      console.log(header)
-      const response  = await wp.delete(`/wp/v2/posts/${id}`,{header:header});
-      console.log(response.data)
+      await wpBearer.delete(`/wp/v2/posts/${id}`);
+      dispatch({type: DELETE_POST,payload:id})
       history.push('/'); 
-      //dispatch({type: FETCH_POST,payload:response.data})
     }catch(error){
-      toastrWarningFunction(`Post Delete Task`,`Error`);
+      toastrWarningFunction(`Error`,`Post Delete Task`);
       history.push('/'); 
     }  
   };
-
-  /* 
-  
- { "email": "a@g.c",
-"first_name": "a",
-"last_name": "a",
-"password": "a",
-"username": "a"}
-*/

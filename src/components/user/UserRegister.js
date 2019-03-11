@@ -13,7 +13,7 @@ class UserRegister extends React.Component {
       role:'author'
     }
     formValues= _.assign(formValues,role)
-    this.props.registerUser(formValues);
+    this.props.registerUserAction(formValues);
   }
 
   render () {

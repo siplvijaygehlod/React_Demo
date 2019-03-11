@@ -1,5 +1,5 @@
 import React from 'react'
-
+import _ from 'lodash'
 import {updateUserAction,getLoggedInUserDetailAction} from '../../actions'
 import { connect } from 'react-redux';
 import UserForm from './UserForm';
@@ -7,6 +7,10 @@ import history from '../../history'
 
 class UserProfileUpdate extends React.Component {
 
+  componentDidMount(){
+    this.props.getLoggedInUserDetailAction(this.props.match.params.id);
+  }
+  
   onSubmit = formValues => {
     console.log(formValues);
     //this.props.updateUser(formValues);
@@ -18,7 +22,7 @@ class UserProfileUpdate extends React.Component {
       return (
         <div>
           <h3>Update Your Profile</h3>
-          <UserForm onSubmit={this.onSubmit} />
+          <UserForm initialValues={_.pick(this.props.userDetail,'username')} onSubmit={this.onSubmit} />
       </div>    
       )
      }
@@ -32,9 +36,9 @@ class UserProfileUpdate extends React.Component {
     }
   }
 const mapStateToProps = (state,ownProps) => {
-  console.log(ownProps.match.params.id)
+  //console.log(state.user)
     return {
-      userDetail:state.user[ownProps.match.params.id]
+      userDetail:state
     }
   }
 

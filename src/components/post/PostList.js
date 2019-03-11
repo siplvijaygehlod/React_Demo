@@ -1,12 +1,12 @@
 import React from 'react'
-import {postList} from '../../actions'
+import {postListAction} from '../../actions'
 import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
 
 class PostList extends React.Component {
 
   componentDidMount () {
-    this.props.postList()
+    this.props.postListAction()
   }
 
   renderAdmin (post) {
@@ -58,4 +58,4 @@ const mapStateToProps = ({posts}) => {
     posts: Object.values(posts)
   }
 }
-export default connect(mapStateToProps,{postList})(PostList);
+export default connect(mapStateToProps,{postListAction})(PostList);

@@ -20,9 +20,9 @@ class AuthCheck extends React.Component {
     } else {
       return (
         <div className="a">
-            <Link className='ui button primary'
-                  to={`/user/profileUpdate/${localStorage.getItem("loggedInUserId")}`}> Update Profile</Link>
-            <Link className='ui button red' to={`/user/login`} onClick={this.onSubmit}> Logout</Link>
+            {/* <Link className='ui button primary'
+                  to={`/user/profileUpdate/${localStorage.getItem("loggedInUserId")}`}> Update Profile</Link> */}
+            <Link className='ui button red' to={'/'} onClick={this.onSubmit}> Logout</Link>
         </div>
       )
     }

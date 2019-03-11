@@ -2,7 +2,6 @@ import React from 'react'
 /* reduxForm is the same function as we are using 
 till now using connect function and make sure that we 
 call some action creator and store data.
-
 Field is a built-in react component to which 
 we are going to show on screen. */
 
@@ -167,8 +166,18 @@ const validate = formValues => {
     errors.email = "no email!!!"; 
   }
 
+  if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(formValues.email)) {
+    errors.email = 'Enter Valid Email'
+  }
+
+  if (!/[^a-zA-Z0-9 ]/i.test(formValues.username)) {
+    errors.username = 'Only Alfanumeric value will aceepted'
+  }
+
   if(!formValues.password){
     errors.password = "no password!!!";
+  }else if(formValues.password.length<6){
+    errors.password = 'Minimum length is 6 character'
   }
 
   if(!formValues.cpassword){

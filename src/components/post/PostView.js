@@ -1,13 +1,9 @@
 import React from 'react'
-import { postView } from '../../actions'
+import { postListAction } from '../../actions'
 import { connect } from 'react-redux'
 
 class PostView extends React.Component {
-  componentDidMount(){
-    this.props.postView(this.props.match.params.id)
-
-  }
-
+  
   renderPostView(){
     const {id,title,content,date} = this.props.post;
       return (
@@ -44,4 +40,4 @@ const mapStateToProps = ({posts},ownProps) => {
   }
 }
 
-export default connect(mapStateToProps,{postView})(PostView);
+export default connect(mapStateToProps,{postListAction})(PostView);

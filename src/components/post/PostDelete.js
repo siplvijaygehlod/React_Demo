@@ -1,5 +1,5 @@
 import React from 'react'
-import {postView,deletePostAction} from '../../actions'
+import {postListAction,deletePostAction} from '../../actions'
 import Modal from '../Modal'
 import history from '../../history'
 import {connect} from 'react-redux'
@@ -9,7 +9,7 @@ class PostDelete extends React.Component {
 
   componentDidMount(){
     console.log(this.props.match.params.id)
-    this.props.postView(this.props.match.params.id)
+    this.props.postListAction(this.props.match.params.id)
   }
 
   renderAction () {
@@ -46,10 +46,9 @@ class PostDelete extends React.Component {
 }
 
 const mapStateToProps = (state,ownProps) => {
-  console.log(state.posts[ownProps.match.params.id])
     return {
       post:state.posts[ownProps.match.params.id]
     }
   }
 
-  export default connect(mapStateToProps,{postView,deletePostAction})(PostDelete)
+  export default connect(mapStateToProps,{postListAction,deletePostAction})(PostDelete)

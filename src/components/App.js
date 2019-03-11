@@ -4,8 +4,6 @@ import Header from './Header'
 import history from '../history'
 import UserLogin from './user/UserLogin'
 import UserRegister from './user/UserRegister'
-import UserProfileUpdate from './user/UserProfileUpdate'
-//import UserLogout from './user/UserLogout';
 import PostCreate from './post/PostCreate';
 import PostDelete from './post/PostDelete';
 import PostUpdate from './post/PostUpdate';
@@ -22,8 +20,7 @@ class App extends React.Component {
             <Switch>
               <Route path='/user/login' exact component={UserLogin} />
               <Route path='/user/register' exact component={UserRegister} />
-              <Route path='/user/profileUpdate/:id' exact component={UserProfileUpdate} />
-              {/* <Route path='/user/logout' exact component={UserLogout} /> */}
+              {/* <Route path='/user/profileUpdate/:id' exact component={UserProfileUpdate} /> */}
 
               <Route path='/post/create' exact component={PostCreate} />
               <Route path='/post/delete/:id' exact component={PostDelete} />
