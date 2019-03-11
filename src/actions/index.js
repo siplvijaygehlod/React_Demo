@@ -22,7 +22,9 @@ const toastrWarningFunction = (title,msg) => toastr.error(title,msg)
 export const loginUserAction = formValues => async () => {
     try{
       const response  = await wp.post('/jwt-auth/v1/token',{...formValues});
+      console.log(response.data.user_display_name)
       localStorage.setItem("authToken", response.data.token);
+      localStorage.setItem("displayName", response.data.user_display_name);
       localStorage.setItem("loggedInUserId", response.data.user_id);
       history.push('/');
       toastrSuccessFunction(`SignIn Successful`,`${formValues.username}`)

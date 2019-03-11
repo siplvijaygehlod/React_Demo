@@ -20,8 +20,7 @@ class AuthCheck extends React.Component {
     } else {
       return (
         <div className="a">
-            {/* <Link className='ui button primary'
-                  to={`/user/profileUpdate/${localStorage.getItem("loggedInUserId")}`}> Update Profile</Link> */}
+             <span className='ui button'>{localStorage.getItem("displayName")}</span> 
             <Link className='ui button red' to={'/'} onClick={this.onSubmit}> Logout</Link>
         </div>
       )
