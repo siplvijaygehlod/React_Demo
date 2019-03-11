@@ -128,18 +128,18 @@ const validate = formValues => {
   if(!formValues.username){
     errors.username = "no username!!!";
   }
-  /* 
+ 
   if (!/[^a-z]/i.test(formValues.username)) {
     errors.username = 'Only Alfanumeric value will aceepted'
-  } */
+  }
   
   
 
   if(!formValues.password){
     errors.password = "no password!!!";
-  }/* else if(formValues.password.length<6){
+  } else if(formValues.password.length<6){
     errors.password = 'Minimum length is 6 character'
-  } */
+  } 
  
   return errors;
 };
