@@ -152,14 +152,20 @@ const validate = formValues => {
   
   if(!formValues.username){
     errors.username = "no username!!!";
+  }else if(formValues.password.length>30){
+    errors.password = 'Max length is 300 character'
   }
 
   if(!formValues.first_name){
     errors.first_name = "no first name!!!";
+  }else if(formValues.first_name.length>30){
+    errors.first_name = 'Max length is 300 character'
   }
 
   if(!formValues.last_name){
     errors.last_name = "no last name!!!";
+  }else if(formValues.last_name.length>30){
+    errors.last_name = 'Max length is 300 character'
   }
 
   if(!formValues.email){

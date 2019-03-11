@@ -129,8 +129,9 @@ const validate = formValues => {
   const errors = {};
   
   if(!formValues.title){
-    errors.title = "no title!!!";
-    
+    errors.title = "no title!!!"; 
+  }else if(formValues.title.length>50){
+    errors.title = 'Max length is 50 character'
   }
   
   if(!formValues.content){

@@ -131,7 +131,9 @@ const validate = formValues => {
  
   if (!/[^a-z]/i.test(formValues.username)) {
     errors.username = 'Only Alfanumeric value will aceepted'
-  }
+  }else if(formValues.username.length>30){
+    errors.username = 'Max length is 30 character'
+  } 
   
   
 
