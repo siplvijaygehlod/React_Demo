@@ -22,6 +22,15 @@ class PostList extends React.Component {
     }
   }
 
+  stripHtmlTags(str)
+  {
+    if ((str===null) || (str===''))
+      return false;
+    else
+      str = str.toString();
+      return str.replace(/<[^>]*>/g, '');
+  }
+  
   renderPostList(){
     return this.props.posts.map(post => {
       return (
@@ -33,7 +42,7 @@ class PostList extends React.Component {
             {post.title.rendered}
             </Link>
             <div className='description'>
-              {post.excerpt.rendered}
+              {this.stripHtmlTags(post.excerpt.rendered.slice(0,200))}.......                 
             </div>
           </div>
         </div>

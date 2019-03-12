@@ -84,11 +84,12 @@ export const loginUserAction = formValues => async () => {
   
   export const postListAction = ()=> async (dispatch) => {
     try{
-      const response  = await wp.get('/wp/v2/posts');
+      //let per_page = 10;
+      const response  = await wp.get(`/wp/v2/posts`);
       //console.log(response.data)
       dispatch({type: FETCH_POSTS,payload:response.data})
     }catch(error){
-      toastrWarningFunction(`Form Submission Error`,`a`);
+      toastrWarningFunction(`List render Error`,`Can't get list`);
     }  
   };
   
@@ -100,7 +101,7 @@ export const loginUserAction = formValues => async () => {
       dispatch({type: UPDATE_POST,payload:response.data})
       history.push('/')
     }catch(error){
-      toastrWarningFunction(`Form Submission Error`,`a`);
+      toastrWarningFunction(`Post Update`,`${formValues.title}`);
     }  
   };
 

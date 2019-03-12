@@ -152,24 +152,26 @@ const validate = formValues => {
   
   if(!formValues.username){
     errors.username = "no username!!!";
-  }else if(formValues.password.length>30){
-    errors.password = 'Max length is 300 character'
+  }else if(formValues.password.length>20){
+    errors.password = 'Max length is 20 character'
   }
 
   if(!formValues.first_name){
     errors.first_name = "no first name!!!";
   }else if(formValues.first_name.length>30){
-    errors.first_name = 'Max length is 300 character'
+    errors.first_name = 'Max length is 30 character'
   }
 
   if(!formValues.last_name){
     errors.last_name = "no last name!!!";
   }else if(formValues.last_name.length>30){
-    errors.last_name = 'Max length is 300 character'
+    errors.last_name = 'Max length is 30 character'
   }
 
   if(!formValues.email){
     errors.email = "no email!!!"; 
+  }else if(formValues.last_name.length>50){
+    errors.last_name = 'Max length is 50 character'
   }
 
   if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(formValues.email)) {
@@ -184,21 +186,19 @@ const validate = formValues => {
     errors.password = "no password!!!";
   }else if(formValues.password.length<6){
     errors.password = 'Minimum length is 6 character'
+  }else if(formValues.password.length>20){
+    errors.password = 'Max length is 20 character'
   }
 
   if(!formValues.cpassword){
     errors.cpassword = "no confirm Password!!!";
+  }else if(formValues.cpassword.length>20){
+    errors.cpassword = 'Max length is 20 character'
   }
 
   if(formValues.password !== formValues.cpassword){
     errors.cpassword = "mismatch password!!!";
   }
-
-  /* let limitLength = formValues.username.length;
-  if(limitLength){
-    errors.username = "less than defiened limit";
-  }
- */
   return errors;
 };
 

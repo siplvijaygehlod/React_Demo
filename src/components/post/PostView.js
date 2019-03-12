@@ -1,9 +1,32 @@
 import React from 'react'
 import { postListAction } from '../../actions'
 import { connect } from 'react-redux'
+import {Link} from 'react-router-dom'
 
 class PostView extends React.Component {
   
+  stripHtmlTags(str)
+  {
+    if ((str===null) || (str===''))
+      return false;
+    else
+      str = str.toString();
+      return str.replace(/<[^>]*>/g, '');
+  }
+  renderAdmin () {
+    const {id,author} = this.props.post;
+     if ((author).toString() === localStorage.getItem("loggedInUserId")) {
+      return (
+        <div className='right floated content'>
+          <Link className='ui button primary' to={`/post/update/${id}`}> Edit
+          </Link>
+          <Link className='ui button primary' to={`/post/delete/${id}`}> Delete
+          </Link>
+        </div>
+      )
+    }
+  }
+
   renderPostView(){
     const {id,title,content,date} = this.props.post;
       return (
@@ -11,11 +34,11 @@ class PostView extends React.Component {
           <div className='content '>
             <h1>{title.rendered}</h1>
             <div className='description'>
-              {content.rendered}
+              {this.stripHtmlTags(content.rendered)}
             </div>
-            <div className='description'>
-            <i className='large middle aligned icon calendar' />
-            {date.slice(0,10)}
+            <div className='description item'>
+              <i className='large middle aligned icon calendar' />
+              {date.slice(0,10)}
             </div>
           </div>
         </div>
@@ -30,6 +53,7 @@ class PostView extends React.Component {
     return (
       <div>
           {this.renderPostView()}
+          {this.renderAdmin()}
       </div>
     )
   }

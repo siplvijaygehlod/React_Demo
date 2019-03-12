@@ -11,6 +11,8 @@ import { Field, reduxForm } from 'redux-form'
 
 class PostForm extends React.Component {
 
+  state= {disabledButton:false}
+  
   renderLoginError({error,touched}){
     if(touched && error){
       return (
@@ -28,7 +30,6 @@ class PostForm extends React.Component {
 
  renderInputField = ({input,idLable,inputType, label,meta}) => {
   const className= `field ${meta.error && meta.touched ? 'error' : '' }`;
-  //console.log(selectOption)
   if(inputType=== 'text'){
     return (
       <div className={className}>
@@ -41,8 +42,6 @@ class PostForm extends React.Component {
     )
   }
   if(inputType === "select"){
-    /* onScroll={this.onScrollThatCallsPreventDefault}
-  onScrollPassive={this.onScrollThatJustListens} */
     return (
       <div className={className}>
         <label>
@@ -59,61 +58,69 @@ class PostForm extends React.Component {
         {this.renderLoginError(meta)}
       </div>
     )
-  }
-  /* if(inputType=== 'textarea'){
+  }else{
     return (
       <div className={className}>
         <label>
           {label}
         </label>
-        <textarea rows="4" ></textarea>
-        
+        <textarea id={idLable} {...input} rows="4" cols="10" ></textarea>
+        {this.renderLoginError(meta)}
       </div>
     )
-  } */
+  } 
   
 }
 
 
-onSubmit = formValues => {
-  this.props.onSubmit(formValues);
-  //console.log(formValues)
-}
-renderForm = () => {
-  return (
-    <div>
-      <form onSubmit={this.props.handleSubmit(this.onSubmit)} className='ui form error'>
-        {/* name props in field is for manage the form field
+  onSubmit = formValues => {
+    console.log(this.state.disabledButton)
+    this.setState({disabledButton:true})
+    this.props.onSubmit(formValues);
+    console.log(this.state.disabledButton)
+    this.setState({disabledButton:false})
+  }
+
+  renderForm = () => {
+    return (
+      <div>
+        <form onSubmit={this.props.handleSubmit(this.onSubmit)} className='ui form error'>
+          {/* name props in field is for manage the form field
             and it is required props for field and all the props are send
             to helper function by component */}
         
-        <Field 
-          inputType='text'
-          name='title'
-          component={this.renderInputField}
-          idLable='title'
-          label='Enter Title'
-        />
-        <Field 
-          inputType='text' 
-          name='content' 
-          component={this.renderInputField} 
-          idLable='desc' 
-          label='Enter Description'          
-        />
-        { <Field 
-          inputType='select' 
-          name='status' 
-          component={this.renderInputField} 
-          idLable='status' 
-          label='Select Post Status'          
-        /> }
-        <button className="ui button primary" >Submit</button>
+          <Field 
+            inputType='text'
+            name='title'
+            component={this.renderInputField}
+            idLable='title'
+            label='Enter Title'
+          />
+          <Field 
+            name='content' 
+            component={this.renderInputField} 
+            idLable='desc' 
+            label='Enter Description'          
+          />
+          <Field 
+            inputType='select' 
+            name='status' 
+            component={this.renderInputField} 
+            idLable='status' 
+            label='Select Post Status'          
+          /> 
+          {this.renderButton()}
       </form>
     </div>
   )
 }
-
+renderButton(){
+  if(!this.state.disabledButton){
+    return (
+      <button className="ui button primary" id="submitButton">Submit</button>
+    )
+  }
+}
 
   render () {
     return (
@@ -132,6 +139,8 @@ const validate = formValues => {
     errors.title = "no title!!!"; 
   }else if(formValues.title.length>50){
     errors.title = 'Max length is 50 character'
+  }else if(formValues.title.length<5){
+    errors.title = 'Min length is 5 character'
   }
   
   if(!formValues.content){

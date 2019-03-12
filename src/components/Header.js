@@ -9,8 +9,8 @@ class Header extends Component {
             return (
                 <div className='ui secondary pointing menu'>
                     <Link to='/' className='item'> React Demo App</Link>
-                    <Link to='/' className='item'> View all Posts</Link>
-                    <Link to='/post/create' className='item'> Create new Post</Link>
+                    <Link to='/' className='ui button primary'> View all Posts</Link>
+                    <Link to='/post/create' className='ui button primary'> Create new Post</Link>
                     <div className='right menu'>
                         <AuthCheck />
                     </div>
@@ -20,7 +20,7 @@ class Header extends Component {
             return (
                 <div className='ui secondary pointing menu'>
                     <Link to='/' className='item'> React Demo App</Link>
-                    <Link to='/' className='item'> All Posts</Link>
+                    <Link to='/' className='ui button primary'> All Posts</Link>
                     <div className='right menu'>
                         <AuthCheck />
                     </div>

@@ -8,7 +8,6 @@ import {Link} from 'react-router-dom'
 class PostDelete extends React.Component {
 
   componentDidMount(){
-    console.log(this.props.match.params.id)
     this.props.postListAction(this.props.match.params.id)
   }
 
@@ -16,7 +15,7 @@ class PostDelete extends React.Component {
     const {id} = this.props.match.params;
     return (
       <React.Fragment>
-        <button onClick={() => this.props.deletePostAction(id) } className='ui negative button'>
+        <button onClick={() => this.props.deletePostAction(id)} className='ui negative button'>
           Delete
         </button>
         <Link to="/" className='ui primary button'>
