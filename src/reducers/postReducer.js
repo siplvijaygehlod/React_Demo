@@ -10,6 +10,7 @@ export default (state = {},action) => {
          
         case FETCH_POSTS:
             //console.log(action.payload)
+            state= {}
             return {...state, ..._.mapKeys(action.payload,'id')};
         case DELETE_POST:
             return _.omit(state,action.payload);

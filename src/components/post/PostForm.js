@@ -7,7 +7,6 @@ Field is a built-in react component to which
 we are going to show on screen. */
 
 import { Field, reduxForm } from 'redux-form'
-//import {validation} from '../../validation'
 
 class PostForm extends React.Component {
 
@@ -73,7 +72,7 @@ class PostForm extends React.Component {
 
   onSubmit = formValues => {
     document.getElementById("submitButton").disabled = 'true';
-    //this.props.onSubmit(formValues);
+    this.props.onSubmit(formValues);
   }
 
   renderForm = () => {

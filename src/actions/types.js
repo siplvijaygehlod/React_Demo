@@ -5,6 +5,6 @@ export const FETCH_POST = 'FETCH_POST';
 export const FETCH_USER = 'FETCH_USER';
 export const DELETE_POST = 'DELETE_POST';
 export const UPDATE_POST = 'UPDATE_POST';
-/*
-export const DELETE_STREAM = 'DELETE_STREAM';
-export const EDIT_STREAM = 'EDIT_STREAM'; */
+export const FETCH_PAGES = 'FETCH_PAGES';
+
+/*export const EDIT_STREAM = 'EDIT_STREAM'; */

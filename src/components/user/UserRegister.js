@@ -28,7 +28,7 @@ class UserRegister extends React.Component {
     else{
       return(
         <div>
-        {history.push('/')}
+        {history.push('/post/list/1')}
         </div>
       )
     }

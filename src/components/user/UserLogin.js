@@ -12,7 +12,14 @@ import { connect } from 'react-redux';
 //import {validation} from '../../validation'
 import history from '../../history'
 
+
+//import PasswordMask from 'react-password-mask';
+
 class UserLogin extends React.Component {
+
+  state= {
+    password:''
+  }
 
   renderLoginError({error,touched}){
     if(touched && error){
@@ -37,14 +44,14 @@ class UserLogin extends React.Component {
   which holds formProps param by-default and this is object.
   Currently we are destructing our input object from formProps.
   */
- renderLoginForm = ({input,idLable,inputType, label,meta}) => {
+ renderLoginForm = ({input,id,inputType, label,meta}) => {
     const className= `field ${meta.error && meta.touched ? 'error' : '' }`;
     return (
       <div className={className}>
         <label>
           {label}
         </label>
-        <input {...input} id={idLable} type={inputType} autoComplete="off"
+        <input {...input} id={id} type={inputType} autoComplete="off"
         />
         {this.renderLoginError(meta)}
       </div>
@@ -88,14 +95,14 @@ onSubmit = formValues => {
             inputType='text'
             name='username'
             component={this.renderLoginForm}
-            idLable='username'
+            id='username'
             label='Enter username'
           />
           <Field 
             inputType='password' 
             name='password' 
             component={this.renderLoginForm} 
-            idLable='psw' 
+            id='psw' 
             label='Enter Password'
             pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}"
             title="Must contain at least one number and one uppercase and
@@ -107,6 +114,14 @@ onSubmit = formValues => {
             component={this.renderCheckbox} 
             label='Show Password'
           />
+          {/* <PasswordMask
+            id="password"
+            name="password"
+            placeholder="Enter password"
+            component={this.renderLoginForm}
+            
+            
+          /> */}
           <button className="ui button primary" >Submit</button>
         </form>
         </div>      
@@ -114,7 +129,7 @@ onSubmit = formValues => {
     }else{
       return(
         <div>
-          {history.push('/')}
+          {history.push('/post/list/1')}
         </div>
       )
     }
@@ -141,7 +156,11 @@ const validate = formValues => {
     errors.password = "no password!!!";
   } else if(formValues.password.length<6){
     errors.password = 'Minimum length is 6 character'
-  } 
+  } else if (!/[^a-z]/i.test(formValues.password)) {
+    errors.password = 'Only Alfanumeric value will aceepted'
+  }else if(formValues.password.length>20){
+    errors.password = 'Max length is 20 character'
+  }
  
   return errors;
 };

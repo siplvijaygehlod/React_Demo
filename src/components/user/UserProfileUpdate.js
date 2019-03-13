@@ -29,7 +29,7 @@ class UserProfileUpdate extends React.Component {
       else{
         return(
           <div>
-          {history.push('/user/login')}
+          {history.push('/')}
           </div>
         )
       }

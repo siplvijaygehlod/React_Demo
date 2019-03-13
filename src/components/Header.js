@@ -8,8 +8,8 @@ class Header extends Component {
         if(localStorage.getItem("authToken")){
             return (
                 <div className='ui secondary pointing menu'>
-                    <Link to='/' className='item'> React Demo App</Link>
-                    <Link to='/' className='ui button primary'> View all Posts</Link>
+                    <Link to='/post/list/1' className='item'> React Demo App</Link>
+                    <Link to='/post/list/1' className='ui button primary'> View all Posts</Link>
                     <Link to='/post/create' className='ui button primary'> Create new Post</Link>
                     <div className='right menu'>
                         <AuthCheck />
@@ -20,7 +20,6 @@ class Header extends Component {
             return (
                 <div className='ui secondary pointing menu'>
                     <Link to='/' className='item'> React Demo App</Link>
-                    <Link to='/' className='ui button primary'> All Posts</Link>
                     <div className='right menu'>
                         <AuthCheck />
                     </div>

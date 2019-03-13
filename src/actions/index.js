@@ -5,7 +5,8 @@ import  wpBearer from '../apis/wpBearer'
   FETCH_POSTS,
   FETCH_USER,
   DELETE_POST,
-  UPDATE_POST
+  UPDATE_POST,
+  FETCH_PAGES
 } from './types';
 
 /* Test SignIn
@@ -22,11 +23,10 @@ const toastrWarningFunction = (title,msg) => toastr.error(title,msg)
 export const loginUserAction = formValues => async () => {
     try{
       const response  = await wp.post('/jwt-auth/v1/token',{...formValues});
-      console.log(response.data.user_display_name)
       localStorage.setItem("authToken", response.data.token);
       localStorage.setItem("displayName", response.data.user_display_name);
       localStorage.setItem("loggedInUserId", response.data.user_id);
-      history.push('/');
+      history.push('/post/list/1');
       toastrSuccessFunction(`SignIn Successful`,`${formValues.username}`)
     }
     catch(error){
@@ -46,12 +46,12 @@ export const loginUserAction = formValues => async () => {
     }   
   };
 
-  export const logOutUserAction = () => {
+  /* export const logOutUserAction = () => {
     localStorage.removeItem("loggedInUserId")
     localStorage.removeItem("authToken");
 
     toastrSuccessFunction(`LogOut Status`,`You are logout Successfully`);
-  };
+  }; */
 
   export const getLoggedInUserDetailAction = id => async (dispatch) => {
     try{
@@ -76,31 +76,35 @@ export const loginUserAction = formValues => async () => {
     try{
       await wpBearer.post('/wp/v2/posts',formValues);
       toastrSuccessFunction(`Post Create Successfully `,`${formValues.title}`);
-      history.push('/'); 
+      history.push('/post/list/1'); 
     }catch(error){
       toastrWarningFunction(`Create Post Error`,`${formValues.title}`);
     }  
   };
   
-  export const postListAction = ()=> async (dispatch) => {
+  export const postListAction = (id)=> async (dispatch) => {
     try{
-      //let rest_api_slug = `?order=asc&orderby=date&per_page=25`
-      //let per_page = 10;
-      const response  = await wp.get(`/wp/v2/posts`);
-      //console.log(response.data)
+
+      let restApiSlug = `?order=desc&orderby=date&offset=${1 +((id-1)*10)}&page=${id}&per_page=10`;
+      const response  = await wp.get(`/wp/v2/posts${restApiSlug}`);
+      dispatch({type: FETCH_PAGES,payload:response.headers['x-wp-totalpages']})
       dispatch({type: FETCH_POSTS,payload:response.data})
     }catch(error){
-      toastrWarningFunction(`List render Error`,`Can't get list`);
+      if(!localStorage.getItem("authToken")){
+        toastrWarningFunction(`User Notice`,`Please SignIn to view post list`);
+        history.push('/'); 
+      }else{
+        toastrWarningFunction(`List render Error`,`Can't get list`);
+      }
     }  
   };
   
    export const postUpdateAction = (id,formValues)=> async (dispatch) => {
     try{
       const response  = await wpBearer.post(`/wp/v2/posts/${id}`,formValues);
-      //console.log(response.data)
       toastrSuccessFunction(`Post Update Successfully `,`${formValues.title}`);
       dispatch({type: UPDATE_POST,payload:response.data})
-      history.push('/')
+      history.push('/post/list/1')
     }catch(error){
       toastrWarningFunction(`Post Update`,`${formValues.title}`);
     }  
@@ -110,9 +114,9 @@ export const loginUserAction = formValues => async () => {
     try{
       await wpBearer.delete(`/wp/v2/posts/${id}`);
       dispatch({type: DELETE_POST,payload:id})
-      history.push('/'); 
+      history.push('/post/list/1'); 
     }catch(error){
       toastrWarningFunction(`Error`,`Post Delete Task`);
-      history.push('/'); 
+      history.push('/post/list/1'); 
     }  
   };

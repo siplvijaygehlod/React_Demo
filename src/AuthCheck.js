@@ -1,19 +1,22 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import {connect} from 'react-redux'
-import {logOutUserAction} from './actions'
+import {toastr} from 'react-redux-toastr'
+
+const toastrSuccessFunction = (title,msg) => toastr.success(title,msg)
 
 class AuthCheck extends React.Component {
   
-    onSubmit = () => {
-      this.props.logOutUserAction();
-      
+    onSubmit = (event) => {
+      localStorage.removeItem("loggedInUserId")
+      localStorage.removeItem("authToken");
+
+      toastrSuccessFunction(`LogOut Status`,`You are logout Successfully`);
     }
   renderAuthButton () {
     if (!localStorage.getItem("authToken")) {
       return (
           <div className="a">
-            <Link className='ui button primary' to={`/user/login`}> Login</Link>
+            <Link className='ui button primary' to={`/`}> Login</Link>
             <Link className='ui button red' to={`/user/register`}> Register</Link>
           </div>
       )
@@ -34,4 +37,4 @@ class AuthCheck extends React.Component {
   }
 }
 
-export default connect(null,{logOutUserAction})(AuthCheck)
+export default AuthCheck

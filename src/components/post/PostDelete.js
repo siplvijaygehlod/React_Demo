@@ -18,7 +18,7 @@ class PostDelete extends React.Component {
         <button onClick={() => this.props.deletePostAction(id)} className='ui negative button'>
           Delete
         </button>
-        <Link to="/" className='ui primary button'>
+        <Link to={`/${this.props.match.params}`} className='ui primary button'>
           Cancel
         </Link>
       </React.Fragment>
@@ -38,7 +38,7 @@ class PostDelete extends React.Component {
       title='Delete Post'
       content={this.renderContent()}
       actions={this.renderAction()}
-      onDismiss={() => history.push('/')}
+      onDismiss={() => history.push('/post/list/1')}
     />
     )
   }
