@@ -84,6 +84,7 @@ export const loginUserAction = formValues => async () => {
   
   export const postListAction = ()=> async (dispatch) => {
     try{
+      //let rest_api_slug = `?order=asc&orderby=date&per_page=25`
       //let per_page = 10;
       const response  = await wp.get(`/wp/v2/posts`);
       //console.log(response.data)

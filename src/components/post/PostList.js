@@ -39,7 +39,7 @@ class PostList extends React.Component {
           <i className='large middle aligned icon user' />
           <div className='content'>
             <Link to={`/post/view/${post.id}`} className="header">
-            {post.title.rendered}
+            {post.id}   {post.title.rendered}
             </Link>
             <div className='description'>
               {this.stripHtmlTags(post.excerpt.rendered.slice(0,200))}.......                 

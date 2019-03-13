@@ -11,8 +11,6 @@ import { Field, reduxForm } from 'redux-form'
 
 class PostForm extends React.Component {
 
-  state= {disabledButton:false}
-  
   renderLoginError({error,touched}){
     if(touched && error){
       return (
@@ -74,11 +72,8 @@ class PostForm extends React.Component {
 
 
   onSubmit = formValues => {
-    console.log(this.state.disabledButton)
-    this.setState({disabledButton:true})
-    this.props.onSubmit(formValues);
-    console.log(this.state.disabledButton)
-    this.setState({disabledButton:false})
+    document.getElementById("submitButton").disabled = 'true';
+    //this.props.onSubmit(formValues);
   }
 
   renderForm = () => {
@@ -109,17 +104,10 @@ class PostForm extends React.Component {
             idLable='status' 
             label='Select Post Status'          
           /> 
-          {this.renderButton()}
+          <button className="ui button primary" id="submitButton">Submit</button>
       </form>
     </div>
   )
-}
-renderButton(){
-  if(!this.state.disabledButton){
-    return (
-      <button className="ui button primary" id="submitButton">Submit</button>
-    )
-  }
 }
 
   render () {
@@ -154,9 +142,6 @@ const validate = formValues => {
   if(!formValues.status){
     errors.status = "Select status!!!";
   }
-  /* if(formValues.status !== "publish"){
-    errors.status = "As a author you are only allow to use status publish";
-  } */
 
   return errors;
 };
