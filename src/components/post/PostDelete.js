@@ -18,7 +18,8 @@ class PostDelete extends React.Component {
         <button onClick={() => this.props.deletePostAction(id)} className='ui negative button'>
           Delete
         </button>
-        <Link to={`/${this.props.match.params}`} className='ui primary button'>
+        {console.log(this.props.match.params)}
+        <Link to={`/post/list/1`} className='ui primary button'>
           Cancel
         </Link>
       </React.Fragment>

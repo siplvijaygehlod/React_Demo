@@ -9,17 +9,11 @@ we are going to show on screen. */
 import { Field, reduxForm } from 'redux-form'
 import {loginUserAction} from '../../actions'
 import { connect } from 'react-redux';
-//import {validation} from '../../validation'
 import history from '../../history'
 
-
-//import PasswordMask from 'react-password-mask';
+import PasswordMask from 'react-password-mask';
 
 class UserLogin extends React.Component {
-
-  state= {
-    password:''
-  }
 
   renderLoginError({error,touched}){
     if(touched && error){
@@ -114,14 +108,14 @@ onSubmit = formValues => {
             component={this.renderCheckbox} 
             label='Show Password'
           />
-          {/* <PasswordMask
+          <PasswordMask
             id="password"
             name="password"
             placeholder="Enter password"
             component={this.renderLoginForm}
             
             
-          /> */}
+          />
           <button className="ui button primary" >Submit</button>
         </form>
         </div>      

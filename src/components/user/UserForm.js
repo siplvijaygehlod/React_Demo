@@ -7,11 +7,8 @@ we are going to show on screen. */
 
 import { Field, reduxForm } from 'redux-form'
 import _ from 'lodash'
-//import {validation} from '../../validation'
 
 class UserForm extends React.Component {
-
-/*   state= {type:'password'} */
 
   renderRegisterError({error,touched}){
     if(touched && error){
@@ -23,36 +20,9 @@ class UserForm extends React.Component {
     }
   }
 
-  showPassword = () => {
-
-    /* if(this.state.type === "password"){
-      console.log(this.state.type)
-      this.setState({type:"text"})
-      console.log(this.state.type)
-    }else{
-      console.log(this.state.type)
-      this.setState({type:"password"})
-      console.log(this.state.type)
-    } */
-     let x = document.getElementById("psw");
-    let y = document.getElementById("cpsw");
-
-
-    if(x && y){
-      if (x.type === "password" && y.type === "password") {
-        x.type = "text";
-        y.type = "text";
-
-      } else {
-        x.type = "password";
-        y.type = "password";
-      }
-    } 
-  }
-
   /* This is helper functoin for Field's component props
-  which holds formProps param by-default and this is object.
-  Currently we are destructing our input object from formProps.
+    which holds formProps param by-default and this is object.
+    Currently we are destructing our input object from formProps.
   */
  renderInputForm = ({input,idLable,inputType, label,meta}) => {
   

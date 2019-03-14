@@ -1,10 +1,17 @@
 import React from 'react'
 import history from '../../history'
 
+import {toastr} from 'react-redux-toastr'
+
+const toastrWarningFunction = (title,msg) => toastr.error(title,msg) 
+
 class NotFound extends React.Component {
   renderHelper () {
     return (
-    history.push('/')
+      <div>
+        {toastrWarningFunction(`Bad Page URL `,`Sorry this page is not available`)}
+        {history.push('/')}
+      </div>
     )
   }
   
