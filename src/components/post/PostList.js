@@ -17,9 +17,9 @@ class PostList extends React.Component {
     if ((post.author) === parseInt(localStorage.getItem("loggedInUserId"))) {
       return (
         <div className='right floated content'>
-          <Link className='ui button primary' to={`/post/update/${post.id}`}> Edit
+          <Link className='ui button primary' to={{ pathname: `/post/update/${post.id}`, state: { pageId: parseInt(this.props.match.params.id),page: 'list'}}}> Edit
           </Link>
-          <Link className='ui button primary' to={`/post/delete/${post.id}`}> Delete
+          <Link className='ui button primary' to={{ pathname: `/post/delete/${post.id}`, state: { pageId: parseInt(this.props.match.params.id),page: 'list'}}}> Delete
           </Link>
         </div>
       )
@@ -43,7 +43,9 @@ class PostList extends React.Component {
           {this.renderAdmin(post)}
             <i className='large middle aligned icon user' />
             <div className='content'>
-              <Link to={`/post/view/${post.id}`} className="header">
+
+            <Link to={{ pathname: `/post/view/${post.id}`, state: { pageId: parseInt(this.props.match.params.id)}}}  className="header">
+              {/* <Link to={`/post/view/${post.id}`} className="header"> */}
               {post.id}   {post.title.rendered}
               </Link>
               <div className='description'>
@@ -80,7 +82,7 @@ class PostList extends React.Component {
       }else if(parseInt(this.props.pages[0]) === pageId){
         return (
           <div className="item">
-            <Link className='ui button primary' to={`/post/list/${pageId-1}`} onClick={() => this.dataList(nextPageId)}> Prev</Link>
+            <Link className='ui button primary' to={`/post/list/${pageId-1}`} onClick={() => this.dataList(prevPageId)}> Prev</Link>
           </div>
         )
       }else{

@@ -11,8 +11,6 @@ import {loginUserAction} from '../../actions'
 import { connect } from 'react-redux';
 import history from '../../history'
 
-import PasswordMask from 'react-password-mask';
-
 class UserLogin extends React.Component {
 
   renderLoginError({error,touched}){
@@ -22,16 +20,6 @@ class UserLogin extends React.Component {
           <div className="header">{error}</div>
         </div>
       );
-    }
-  }
-  showPassword = () => {
-    var x = document.getElementById("psw");
-    if(x){
-      if (x.type === "password") {
-        x.type = "text";
-      } else {
-        x.type = "password";
-      }
     }
   }
   /* This is helper functoin for Field's component props
@@ -44,28 +32,16 @@ class UserLogin extends React.Component {
       <div className={className}>
         <label>
           {label}
+          
         </label>
         <input {...input} id={id} type={inputType} autoComplete="off"
         />
-        {this.renderLoginError(meta)}
-      </div>
-    )
-  }
-
-  
-  renderCheckbox = ({input,label,inputType, }) => {
-    return (
-      <div className='field'>
-      <label>
-          {label}
-        </label>
-        <input {...input} type={inputType} autoComplete="off" onClick={this.showPassword}
-        />
         
+        {this.renderLoginError(meta)}
+       
       </div>
     )
   }
-
 
 onSubmit = formValues => {
   this.props.loginUserAction(formValues);
@@ -99,22 +75,6 @@ onSubmit = formValues => {
             id='psw' 
             label='Enter Password'
             pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}"
-            title="Must contain at least one number and one uppercase and
-              lowercase letter, and at least 8 or more characters"
-          />
-          <Field 
-            inputType='checkbox' 
-            name='checkbox' 
-            component={this.renderCheckbox} 
-            label='Show Password'
-          />
-          <PasswordMask
-            id="password"
-            name="password"
-            placeholder="Enter password"
-            component={this.renderLoginForm}
-            
-            
           />
           <button className="ui button primary" >Submit</button>
         </form>
@@ -135,25 +95,21 @@ const validate = formValues => {
   const errors = {};
   
   if(!formValues.username){
-    errors.username = "no username!!!";
-  }
- 
-  if (!/[^a-z]/i.test(formValues.username)) {
-    errors.username = 'Only Alfanumeric value will aceepted'
+    errors.username = "Please specify username.";
+  }else if (!/[^a-z]/i.test(formValues.username)) {
+    errors.username = 'Please specify alphanumeric values.'
   }else if(formValues.username.length>30){
-    errors.username = 'Max length is 30 character'
+    errors.username = 'Please use atmost 30 characters for username.'
   } 
   
   
 
   if(!formValues.password){
-    errors.password = "no password!!!";
+    errors.password = "Please specify password.";
   } else if(formValues.password.length<6){
-    errors.password = 'Minimum length is 6 character'
+    errors.password = 'Please use atleast 6 characters for password.'
   } else if (!/[^a-z]/i.test(formValues.password)) {
-    errors.password = 'Only Alfanumeric value will aceepted'
-  }else if(formValues.password.length>20){
-    errors.password = 'Max length is 20 character'
+    errors.password = 'Please specify alphanumeric values.'
   }
  
   return errors;

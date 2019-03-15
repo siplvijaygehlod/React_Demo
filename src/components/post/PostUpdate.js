@@ -9,6 +9,9 @@ class PostUpdate extends React.Component {
 
   onSubmit = formValues => {
     this.props.postUpdateAction(this.props.match.params.id,formValues);
+    const pageId = this.props.location.state.pageId
+    const page = this.props.location.state.page
+    history.push(`/post/${page}/${pageId}`)
   }
 
   stripHtmlTags(str)

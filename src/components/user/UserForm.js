@@ -52,21 +52,7 @@ class UserForm extends React.Component {
      )
    }
 
-  renderCheckbox = ({input,label,inputType, }) => {
-    return (
-      <div className='field'>
-      <label>
-          {label}
-        </label>
-        <input {...input} type={inputType} autoComplete="off" onClick={this.showPassword}
-        />
-        
-      </div>
-    )
-  }
-
   onSubmit = formValues => {
-    document.getElementById("submitButton").disabled = 'true';
     formValues= _.omit(formValues,'cpassword')
     this.props.onSubmit(formValues);
   }
@@ -130,12 +116,7 @@ class UserForm extends React.Component {
           title="Must contain at least one number and one uppercase and
             lowercase letter, and at least 8 or more characters"
         />
-        <Field 
-          inputType='checkbox' 
-          name='checkbox' 
-          component={this.renderCheckbox} 
-          label='Show Password'
-        />
+        
         <button className="ui button primary" id="submitButton">Submit</button>
       </form>
       </div>      
@@ -148,55 +129,51 @@ const validate = formValues => {
   const errors = {};
   
   if(!formValues.username){
-    errors.username = "no username!!!";
+    errors.username = "Please specify username.";
   }else if (!/[^a-z]/i.test(formValues.username)) {
-    errors.username = 'Only Alfanumeric value will aceepted'
+    errors.username = 'Please specify alphanumeric values.'
   }else if(formValues.username.length>30){
-    errors.username = 'Max length is 30 character'
+    errors.username = 'Please use atmost 30 characters for username.'
   }
 
   if(!formValues.first_name){
-    errors.first_name = "no first name!!!";
+    errors.first_name = "Please specify first name.";
   }else if(formValues.first_name.length>30){
-    errors.first_name = 'Max length is 30 character'
+    errors.first_name = 'Please use atmost 30 characters for firstname.'
   }
 
   if(!formValues.last_name){
-    errors.last_name = "no last name!!!";
+    errors.last_name = "Please specify last name";
   }else if(formValues.last_name.length>30){
-    errors.last_name = 'Max length is 30 character'
+    errors.last_name = 'Please use atmost 30 characters for last name.'
   }
 
   if(!formValues.email){
-    errors.email = "no email!!!"; 
+    errors.email = "Please specify Email-Id"; 
   }else if(formValues.email.length>50){
-    errors.email = 'Max length is 50 character'
+    errors.email = 'Please use atmost 30 characters for Email-Id.'
   }
 
   if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(formValues.email)) {
-    errors.email = 'Enter Valid Email'
+    errors.email = 'Please specify a valid Email-Id.'
   }
 
   if(!formValues.password){
-    errors.password = "no password!!!";
+    errors.password = "Please specify password.";
   }else if(formValues.password.length<6){
-    errors.password = 'Minimum length is 6 character'
-  }else if(formValues.password.length>20){
-    errors.password = 'Max length is 20 character'
+    errors.password = 'Please use atleast 6 characters for password.'
   }else if (!/[^a-z]/i.test(formValues.password)) {
-    errors.password = 'Only Alfanumeric value will aceepted'
+    errors.password = 'Please specify alphanumeric.'
   }
 
   if(!formValues.cpassword){
-    errors.cpassword = "no confirm Password!!!";
-  }else if(formValues.cpassword.length>20){
-    errors.cpassword = 'Max length is 20 character'
+    errors.cpassword = "Please specify password here as well for confirmation.";
   }else if (!/[^a-z]/i.test(formValues.cpassword)) {
-    errors.cpassword = 'Only Alfanumeric value will aceepted'
+    errors.cpassword = 'Please specify alphanumeric values.'
   }
 
   if(formValues.password !== formValues.cpassword){
-    errors.cpassword = "mismatch password!!!";
+    errors.cpassword = "please specify same password in both fields.";
   }
   return errors;
 };

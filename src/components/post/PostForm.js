@@ -32,6 +32,7 @@ class PostForm extends React.Component {
       <div className={className}>
         <label>
           {label}
+          <span>  (sssss)</span>
         </label>
         <input {...input} id={idLable} type={inputType} autoComplete="off"/>
         {this.renderLoginError(meta)}
@@ -71,7 +72,6 @@ class PostForm extends React.Component {
 
 
   onSubmit = formValues => {
-    document.getElementById("submitButton").disabled = 'true';
     this.props.onSubmit(formValues);
   }
 
@@ -103,7 +103,7 @@ class PostForm extends React.Component {
             idLable='status' 
             label='Select Post Status'          
           /> 
-          <button className="ui button primary" id="submitButton">Submit</button>
+          <button className="ui button primary" >Submit</button>
       </form>
     </div>
   )
@@ -123,23 +123,23 @@ const validate = formValues => {
   const errors = {};
   
   if(!formValues.title){
-    errors.title = "no title!!!"; 
-  }else if(formValues.title.length>50){
-    errors.title = 'Max length is 50 character'
-  }else if(formValues.title.length<5){
-    errors.title = 'Min length is 5 character'
+    errors.title = "Please specify the title for your post."; 
+  }
+  else if(formValues.title.length>50){
+    errors.title = 'Please specify atmost 50 characters for your title so it will be catchy for readers.'
+  }
+  else if(formValues.title.length<5){
+    errors.title = 'Please specify atleast 5 characters for your title.'
   }
   
   if(!formValues.content){
-    errors.content = "no description!!!";
-  }else if(formValues.content.length>600){
-    errors.content = 'Max length is 600 character'
-  }else if(formValues.content.length<500){
-    errors.content = 'Min length is 500 character'
+    errors.content = "Please specify the content for your post.";
+  }else if(formValues.content.length<10){
+    errors.content = 'Please specify atleast 10 characters for your post.'
   }
 
   if(!formValues.status){
-    errors.status = "Select status!!!";
+    errors.status = "Please select the status for your post.";
   }
 
   return errors;

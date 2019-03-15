@@ -104,19 +104,22 @@ export const loginUserAction = formValues => async () => {
       const response  = await wpBearer.post(`/wp/v2/posts/${id}`,formValues);
       toastrSuccessFunction(`Post Update Successfully `,`${formValues.title}`);
       dispatch({type: UPDATE_POST,payload:response.data})
-      history.push('/post/list/1')
+      //history.push('/post/list/1')
     }catch(error){
-      toastrWarningFunction(`Post Update`,`${formValues.title}`);
+      toastrWarningFunction(`Post Update Error`,`${formValues.title}`);
     }  
   };
 
   export const deletePostAction = (id)=> async (dispatch) => {
     try{
+      console.log(id)
       await wpBearer.delete(`/wp/v2/posts/${id}`);
+      toastrSuccessFunction(`Post Deleted Successfully `,``);
       dispatch({type: DELETE_POST,payload:id})
-      history.push('/post/list/1'); 
+
+      //history.push('/post/list/1'); 
     }catch(error){
-      toastrWarningFunction(`Error`,`Post Delete Task`);
-      history.push('/post/list/1'); 
+      toastrWarningFunction(`Post Delete Error`,`Post Delete Task`);
+      //history.push('/post/list/1'); 
     }  
   };

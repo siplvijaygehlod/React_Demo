@@ -6,20 +6,26 @@ import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
 
 class PostDelete extends React.Component {
+  
 
   componentDidMount(){
     this.props.postListAction(this.props.match.params.id)
+    
   }
+  
 
   renderAction () {
+    const pageId = this.props.location.state.pageId
+    const page = this.props.location.state.page
+
     const {id} = this.props.match.params;
     return (
       <React.Fragment>
-        <button onClick={() => this.props.deletePostAction(id)} className='ui negative button'>
+        <Link to={`/post/${page}/${pageId}`} onClick={() => this.props.deletePostAction(id)} className='ui negative button'>
           Delete
-        </button>
+        </Link>
         {console.log(this.props.match.params)}
-        <Link to={`/post/list/1`} className='ui primary button'>
+        <Link to={`/post/${page}/${pageId}`} className='ui primary button'>
           Cancel
         </Link>
       </React.Fragment>
@@ -34,12 +40,15 @@ class PostDelete extends React.Component {
   }
 
   render () {
+    const pageId = this.props.location.state.pageId
+    const page = this.props.location.state.page
+    
     return (
       <Modal
       title='Delete Post'
       content={this.renderContent()}
       actions={this.renderAction()}
-      onDismiss={() => history.push('/post/list/1')}
+      onDismiss={() => history.push(`/post/${page}/${pageId}`)}
     />
     )
   }
@@ -48,6 +57,7 @@ class PostDelete extends React.Component {
 const mapStateToProps = (state,ownProps) => {
     return {
       post:state.posts[ownProps.match.params.id]
+      
     }
   }
 
